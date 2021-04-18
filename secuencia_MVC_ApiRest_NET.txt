@@ -1,0 +1,10 @@
+@startuml
+title Message Style - Sequence WebApi
+boundary "Client" as Client
+Client -> CustomerController : HttpRequest
+CustomerController -> CustomerDAO : customer = ObtenerCustomer(id)
+CustomerController -> Dto : customerDTO = new CustomerDTO(customer)
+CustomerController -> HttpRequestMessage :createRespond(customerDTO)
+HttpRequestMessage -> CustomerController :  HttpResponseMessage
+CustomerController -> Client: HttpResponseMessage
+@enduml

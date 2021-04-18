@@ -1,0 +1,64 @@
+@startuml
+title MVC .NET para aplicaciones web multipáginas
+
+class MvcApplication
+class HttpRequest
+package RoutesManager {
+    class RouteConfig <<Vista>>
+    class Route {
+       -name: string
+       -url: string
+       -defaults: RouteDefaults
+    }
+    class RouteDefaults {
+       -controller: string,
+       -action: string,
+       -id: string
+    }
+    class RouteCollection {
+    }
+}
+package Models <<Modelos>> {
+    class Customer{}
+}
+
+package ModelsDAO <<Modelos DAO>> {
+    class CustomerDAO{}
+}
+package Views <<Vistas Html>> {
+    class CustomerList{}
+}
+class Controller <<Controlador>> {
+
+   }
+package Controllers <<Controladores>> {
+   class CustomerController {
+       -CustomerList: List<Customer>
+   }
+}
+package DTO <<Modelo de la vista>> {
+   class CustomerViewModel {
+   }
+}
+
+Controller <|-- CustomerController
+MvcApplication .> RoutesManager
+HttpRequest <.. MvcApplication
+RouteCollection <. RouteConfig
+RouteCollection *--> "1..n" Route
+RouteConfig ..> Controllers :FactoryMethod (Reflection)
+Route *--> RouteDefaults
+RouteConfig ..> RouteDefaults
+Controllers ..> Models
+Controller .> ViewResult
+Controllers ..> DTO
+ViewResult "Renderiza" ..> Views
+class ViewResult {
+   -string viewName
+   -object model
+}
+HttpRespond <--* ViewResult
+Controllers ..> ModelsDAO
+ModelsDAO ..> Models
+DTO ..> Models
+@enduml

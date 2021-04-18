@@ -1,0 +1,12 @@
+@startuml
+title Message Style - Sequence Diagram MVC 
+actor User
+boundary "Web GUI" as GUI
+User -> GUI
+GUI -> CustomerController : HttpRequest
+CustomerController -> CustomerDAO : customer = ObtenerCustomer(id)
+CustomerController -> Dto : customerDTO = new CustomerDTO(customer)
+CustomerController -> ViewResult :return View("CustomerView", customerDTO)
+ViewResult --> CustomerController: HttpResponse
+CustomerController --> GUI : HttpResponse
+@enduml

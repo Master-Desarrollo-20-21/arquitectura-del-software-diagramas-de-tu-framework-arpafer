@@ -1,0 +1,61 @@
+@startuml
+
+title MVC Api Rest .NET
+
+package RoutesManager {
+   class WebApiConfig
+   class HttpConfiguration
+   class HttpRouteCollection
+}
+
+package Controllers {
+   class CustomerController {
+      
+   }
+}
+
+package Models {
+}
+
+package ModelsDAO {
+}
+
+package DTOs <<vista de salida>> {
+}
+
+class WebApiConfig <<Vista entrada>> {
+}
+
+class HttpRequestMessage <<Vista de entrada>> {
+   +CreateRespond(): HttpResponseMessage
+}
+
+Client ..> HttpRequestMessage
+HttpRequestMessage ..> WebApiConfig 
+WebApiConfig ..> "Factory Method" Controllers
+WebApiConfig --> HttpConfiguration 
+HttpConfiguration ..> HttpRouteCollection
+
+class ApiController <<Controlador>> {}
+class CustomerController <<Controlador>> {
+}
+
+ApiController --> HttpRequestMessage
+
+class HttpResponseMessage  {
+}
+
+HttpResponseMessage <. HttpRequestMessage
+CustomerController -|> ApiController
+
+ApiController ..> HttpResponseMessage
+
+Controllers ..> Models
+Controllers ..> ModelsDAO
+ModelsDAO ..> Models
+
+Controllers ..> DTOs
+DTOs ..> Models
+
+
+@enduml
